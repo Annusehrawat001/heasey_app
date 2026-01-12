@@ -1,0 +1,50 @@
+from database import Base
+from sqlalchemy import Integer,String,Column,DateTime,ForeignKey,LargeBinary
+from sqlalchemy.orm import relationship
+from datetime import datetime
+ 
+    
+class KYC(Base):
+    __tablename__ = "kyc"
+
+    kyc_id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    email = Column(String, nullable=False)
+    phone = Column(String, nullable=False)
+    pincode = Column(Integer, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow())
+
+    register_id = Column(ForeignKey("register.id",ondelete='CASCADE'))
+    registers = relationship("Register_User", back_populates="kyc",uselist=False,passive_deletes=True)
+
+    proofs = relationship("KYC_ID_PROOF", back_populates="kyc",uselist=False,passive_deletes=True)
+    bank_details = relationship("Bank_detail", back_populates="kyc",uselist=False,passive_deletes=True)
+
+    
+class KYC_ID_PROOF(Base):
+    __tablename__ = "kyc_idproof"
+
+    id = Column(Integer, primary_key=True)
+    file_name = Column(String, nullable=False)
+    Allow_content_type = Column(String, nullable=False)
+    image = Column(LargeBinary, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow())
+
+    kyc_id = Column(ForeignKey("kyc.kyc_id",ondelete='CASCADE'))
+    kyc = relationship("KYC", back_populates="proofs",uselist=False,passive_deletes=True)
+
+
+
+class Bank_detail(Base):
+    __tablename__="bank_detail"
+    bank_id=Column(Integer,primary_key=True)
+    account_holder_name=Column(String,nullable=False)
+    account_number	=Column(String,nullable=False)
+    bank_name	=Column(String,nullable=False)
+    branch_name=Column(String,nullable=True)
+    
+    created_at = Column(DateTime, default=datetime.utcnow())
+    
+    kyc_id=Column(ForeignKey("kyc.kyc_id",ondelete='CASCADE'))
+    kyc=relationship("KYC",back_populates="bank_details")
+    

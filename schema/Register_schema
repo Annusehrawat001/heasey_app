@@ -1,0 +1,31 @@
+from pydantic import BaseModel,EmailStr
+from typing import Optional
+
+class RegisterA(BaseModel):
+    name:str
+    email:EmailStr
+    password:str
+    phone:str
+    pincode:int
+    Address:str
+    state:str
+    gender:str
+
+class Update_Date(BaseModel):
+    email:Optional[str]=None
+    password:Optional[str]=None
+    
+# class Update_Date(BaseModel):
+#     name: Optional[str] = None
+#     email: Optional[str] = None
+#     phone: Optional[str] = None
+#     password: Optional[str] = None
+#     pincode: Optional[str] = None
+#     Address: Optional[str] = None
+#     state: Optional[str] = None
+#     gender: Optional[str] = None
+
+
+class Data(BaseModel):
+    email:str
+    password:str

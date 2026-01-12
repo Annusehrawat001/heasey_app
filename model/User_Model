@@ -1,0 +1,56 @@
+
+from datetime import datetime
+from pydantic import EmailStr
+from sqlalchemy import Integer,String,Column,DateTime,LargeBinary,ForeignKey
+from sqlalchemy.orm import relationship
+
+
+
+from database import Base
+class Register_User(Base):
+    __tablename__ = "register"
+    id=Column(Integer,primary_key=True)
+    name=Column(String(50),nullable=False)
+    email=Column(String(100),nullable=False,unique=True)
+    phone=Column(String,nullable=False)
+    password=Column(String,nullable=False)
+    pincode=Column(Integer,nullable=False)
+    Address=Column(String(150),nullable=False)
+    state=Column(String,nullable=False)
+    gender=Column(String,nullable=False)
+    created_at=Column(DateTime,default=datetime.utcnow())
+    
+    profiles=relationship("Register_Profile",back_populates="register",uselist=False,passive_deletes=True)
+    kyc=relationship("KYC",back_populates="registers",uselist=False,passive_deletes=True)
+    
+    my_cart=relationship("MY_CART",back_populates="registers",uselist=False,passive_deletes=True)
+    
+    orders=relationship("Order",back_populates="registers",uselist=False,passive_deletes=True)
+    reviews=relationship("Review",back_populates="registers",uselist=False,passive_deletes=True)
+    wishlist=relationship("Wishlist",back_populates="registers",uselist=False,passive_deletes=True)
+    
+    
+
+    
+class Register_Profile(Base):
+    __tablename__="profile"
+    profile_id=Column(Integer,primary_key=True)
+    bio=Column(String,nullable=False)
+    discription=Column(String,nullable=False)
+    image=Column(LargeBinary,nullable=False)
+    Allow_content_type=Column(String)
+    file_name=Column(String,nullable=False)
+    register_id=Column(ForeignKey("register.id",ondelete='CASCADE'))
+    created_at=Column(DateTime,default=datetime.utcnow())
+
+    
+    register=relationship("Register_User",back_populates="profiles",uselist=False,passive_deletes=True)
+    
+    
+    
+    
+    
+    
+    
+    
+    

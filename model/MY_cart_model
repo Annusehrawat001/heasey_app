@@ -1,0 +1,29 @@
+from database import Base
+from sqlalchemy import Integer,String,Column,DateTime,LargeBinary,ForeignKey
+from sqlalchemy.orm import relationship
+from datetime import datetime
+
+class MY_CART(Base):
+    __tablename__="my_cart"
+    my_cart_id=Column(Integer,primary_key=True)
+    stock_quantity = Column(Integer, default=1)
+    price=Column(Integer)
+    
+    created_at=Column(DateTime,default=datetime.utcnow())
+    
+    product_id=Column(Integer, ForeignKey("product.Product_id",ondelete='CASCADE'))
+    register_id=Column(Integer,ForeignKey("register.id",ondelete='CASCADE'))
+    
+    registers=relationship("Register_User",back_populates="my_cart")
+    products=relationship("Product",back_populates="my_cart",uselist=False,passive_deletes=True)
+    
+
+    
+
+
+
+
+    
+
+
+

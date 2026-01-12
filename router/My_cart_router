@@ -1,0 +1,30 @@
+
+from fastapi import APIRouter,Depends
+from sqlalchemy.orm  import  Session
+router=APIRouter()
+from database import get_db
+from schema.My_cart_schema import MY_CART_MY
+from controller.My_Cart import my_cart_add_product,get_all,get_my_cart_by_id,delete_mycart
+
+####################################################################################################
+####################################################################################################
+@router.post("/my_cart")
+def create_my_cart(my_cart_in:MY_CART_MY,db:Session=Depends(get_db)):
+    return my_cart_add_product(my_cart_in,db)
+####################################################################################################
+####################################################################################################
+@router.get("/getall")
+def get_all_mycart(db:Session=Depends(get_db)):
+    return   get_all(db)
+####################################################################################################
+####################################################################################################
+@router.get("/getbyid")
+def get_by_id(id:int,db:Session=Depends(get_db)):
+    return get_my_cart_by_id(id,db)
+####################################################################################################
+####################################################################################################
+@router.delete("/delete_mycart")
+def delete_by_id(id:int,db:Session=Depends(get_db)):
+    return delete_mycart(id,db)
+
+

@@ -1,0 +1,23 @@
+from database import Base
+from sqlalchemy import Integer,String,Column,DateTime,ForeignKey
+from sqlalchemy.orm import relationship
+from datetime import datetime
+
+class Review(Base):
+    __tablename__="review"
+    review_id=Column(Integer,primary_key=True)
+    rating=Column(Integer,nullable=False)
+    comment=Column(String,nullable=True)
+    created_at=Column(DateTime,default=datetime.utcnow())
+    product_id=Column(Integer,ForeignKey("product.Product_id",ondelete='CASCADE'))
+    register_id=Column(Integer,ForeignKey("register.id",ondelete='CASCADE'))
+    order_id=Column(Integer,ForeignKey("order.order_id",ondelete='CASCADE'))
+    
+    products=relationship("Product",back_populates="reviews",uselist=False,passive_deletes=True)
+    
+    registers=relationship("Register_User",back_populates="reviews",uselist=False,passive_deletes=True)
+    
+    orders=relationship("Order",back_populates="reviews",uselist=False,passive_deletes=True)
+    
+    
+    

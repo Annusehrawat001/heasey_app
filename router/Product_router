@@ -1,0 +1,64 @@
+
+from fastapi import APIRouter,Depends
+from sqlalchemy.orm  import  Session
+router=APIRouter()
+from database import get_db
+from schema.Product_schema import ProductA,ProductUpdate,ProductSearch
+from controller.Product_controller import product_create,product_update_by_manufacturer,get_product_by_manufacturer,search_products_controller,delete_product,get_by_order_controller
+
+
+
+####################################################################################################
+####################################################################################################
+@router.post("/postproduct")
+def create_product(product_in:ProductA,db:Session=Depends(get_db)):
+    return product_create (product_in,db)
+
+
+
+
+
+####################################################################################################-----------2
+@router.get("/getproduc/{manufacturer_id}t")
+def manufacturere_gat_product(manufacturer_id:int,db:Session=Depends(get_db)):
+    return get_product_by_manufacturer(manufacturer_id,db)
+####################################################################################################----------3
+@router.patch("/update_product")
+def product_update_by_manufacturer_id(id:int,data:ProductUpdate,db:Session=Depends(get_db)):
+    return product_update_by_manufacturer (id,data,db)
+
+
+
+
+from fastapi import Query
+####################################################################################################-------------4
+
+@router.get("/search/{id}")
+def search_product(
+    product_id: int | None = Query(None),
+    product_name: str | None = Query(None),
+    db: Session = Depends(get_db)
+):
+    filters = ProductSearch(
+        product_id=product_id,
+        product_name=product_name
+    )
+    return search_products_controller(filters, db)
+
+####################################################################################################-------------5
+
+
+
+@router.get("/get__order/{id}")
+def get_by_order(
+    order_by: str = Query("id", description="find your value name (default id)"),
+    order_type: str = Query("desc", description="asc or desc order"),
+    db: Session = Depends(get_db)
+):
+    return get_by_order_controller(order_by, order_type, db)
+
+####################################################################################################
+####################################################################################################
+@router.delete("/delete/product/{id}")
+def product_delete_bymanufacturer(id: int, db: Session = Depends(get_db)):
+    return delete_product(id, db)

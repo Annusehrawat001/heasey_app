@@ -1,0 +1,30 @@
+from pydantic import BaseModel,EmailStr
+###############################
+from pydantic import BaseModel,EmailStr
+class ManufacturerA(BaseModel):
+    Manufacturer_Name:str
+    email:EmailStr
+    password:str
+    address:str
+    phone:str
+    pin_code:int
+    city:str
+    state:str
+    gender:str
+   
+    
+   ############################################################## 
+class responemanufacturer(BaseModel):
+    id:int
+    Manufacturer_Name:str
+    
+    ##############################################################
+class Update_manufacturer(BaseModel):
+    email:str|None=None
+    password:str|None=None
+    Manufacturer_Name:str
+##############################################################
+class LoginAManufacturer(BaseModel):
+    email:str
+    password:str
+

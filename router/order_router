@@ -1,0 +1,29 @@
+from fastapi import APIRouter,Depends
+from schema.order_schema import OrderA
+from controller.order_controller import order_create,get_all_order,delete_order,get_id
+router=APIRouter()
+from sqlalchemy.orm import Session
+from database import get_db
+
+
+####################################################################################################
+####################################################################################################
+@router.post("/createdorder")
+def created_order(order_in:OrderA,db:Session=Depends(get_db)):
+    return order_create(order_in,db)
+####################################################################################################
+####################################################################################################
+@router.get("/getallorder")
+def get_all_orders(db:Session=Depends(get_db)):
+    return  get_all_order (db)
+####################################################################################################
+####################################################################################################
+@router.delete("/deleteorder")
+def order_delete(id:int,db:Session=Depends(get_db)):
+    return delete_order(id,db)
+####################################################################################################
+####################################################################################################
+@router.get("/getorder_by_id")
+def get_order(id:int,db:Session=Depends(get_db)):
+    return  get_id(id,db)
+

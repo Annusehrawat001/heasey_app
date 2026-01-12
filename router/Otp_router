@@ -1,0 +1,28 @@
+
+from fastapi import APIRouter,Depends
+from schema.Otp_schema import OtpA,ForgetA,Reset_password
+from sqlalchemy.orm import Session
+from controller.Otp_controller import Send_Otp,forgot_password,reset_password
+from database import get_db
+router=APIRouter()
+
+####################################################################################################
+####################################################################################################
+
+@router.post("/otppost")
+def otp_post(data:OtpA,db:Session=Depends(get_db)):
+    return Send_Otp(data,db)
+####################################################################################################
+####################################################################################################
+@router.patch("/forget_password")
+def password_forget(data:ForgetA,db:Session=Depends(get_db)):
+    return forgot_password(data,db)
+
+####################################################################################################
+####################################################################################################
+@router.patch("/reset_password")
+def password_reset(data:Reset_password,db:Session=Depends(get_db)):
+    return reset_password(data,db)
+
+####################################################################################################
+####################################################################################################

@@ -1,0 +1,23 @@
+from fastapi import APIRouter,Depends
+from sqlalchemy.orm import Session 
+from database import get_db
+router=APIRouter()
+from controller.Otp_manufacturer import sendotp_manufacturer,forgot_password_manufacturer,reset_password_manufacturer
+from schema.otp_manufacturer import OtpAManufacturer,ManufacturerForget_password,ManufacturerReset_password
+# post----------------1
+# ##########################################################
+@router.post("/sendotpmanufacturer")
+def send_otp(data:OtpAManufacturer,db:Session=Depends(get_db)):
+    return sendotp_manufacturer(data,db)
+###############################################
+# update-----------------2
+# #####################################################
+@router.patch("/checkoptmanufacturer")
+def forget_password(data:ManufacturerForget_password,db:Session=Depends(get_db)):
+    return forgot_password_manufacturer(data,db)
+#############################################
+# REset_password--------------3
+# #######################################################
+@router.patch("/resetpasswordmanufacturer")
+def user_password_reset(data:ManufacturerReset_password,db:Session=Depends(get_db)):
+    return reset_password_manufacturer(data,db)

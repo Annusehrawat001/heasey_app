@@ -1,0 +1,14 @@
+
+from fastapi import APIRouter,Depends
+from schema.review_schema import ReviewA
+from schema.review_schema import ReviewA
+from sqlalchemy.orm import Session
+# from model.review_model import Review
+router=APIRouter()
+from database import get_db
+from controller.Review_controller import create_review
+####################################################################################################
+####################################################################################################
+@router.post("/review")
+def create_review_by_user(data:ReviewA,db:Session=Depends(get_db)):
+    return   create_review(data,db)

@@ -1,0 +1,37 @@
+from database import Base
+from sqlalchemy import Integer,String,Column,DateTime,ForeignKey
+from sqlalchemy.orm import relationship
+from datetime import datetime
+
+class Product(Base):
+    __tablename__="product"
+    Product_id=Column(Integer,primary_key=True)
+    Product_name=Column(String,nullable=False)
+    selling_price=Column(Integer,nullable=False)
+    MRP=Column(Integer,nullable=False)
+    discount=Column(Integer,nullable=False)
+    Stock_quantity=Column(Integer,nullable=False)
+    Delivery=Column(String,default="FREE")
+    Capacity=Column(Integer,nullable=False)
+    careated_at=Column(DateTime,default=datetime.utcnow())
+    
+    
+    category_id = Column(Integer, ForeignKey("categories.category_id",ondelete='CASCADE'))
+    
+    category = relationship("Category", back_populates="products",uselist=False,passive_deletes=True)
+    
+    manufacturer_id=Column(Integer,ForeignKey("manufacturer.id",ondelete='CASCADE'))
+    
+    manufacturer=relationship("Manufacturer",back_populates="products",uselist=False,passive_deletes=True)
+    
+    my_cart=relationship("MY_CART",back_populates="products")
+    
+    
+
+    
+    reviews=relationship("Review",back_populates="products",uselist=False,passive_deletes=True)
+    
+    wishlist=relationship("Wishlist",back_populates="products",uselist=False,passive_deletes=True)
+
+
+    

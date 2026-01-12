@@ -1,0 +1,17 @@
+from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel
+
+class OtpAManufacturer(BaseModel):
+    email:str
+   ###############################
+class ManufacturerForget_password(BaseModel):
+    email:str
+    new_password:str
+    otps:int
+   ############################### 
+class ManufacturerReset_password(BaseModel):
+    email:str
+    old_password:str
+    new_password:str
+    otps:int
+    

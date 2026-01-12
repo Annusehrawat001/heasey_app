@@ -1,0 +1,111 @@
+from fastapi import UploadFile,File,Form
+# from controller.manufacturer_controller import 
+from fastapi import APIRouter,Depends
+# ,HTTPException,UploadFile,File,Form
+from sqlalchemy.orm import Session 
+from database import get_db
+from controller.manufacture import manufacturer_user_controller,get_token,get_all_manufacturer_controller,get_manufacturer_by_id_controller,update_manufacturer_controller,delete_manufacturer_controller,post_user_image,delete_profile,token_chenk,logout_manufacturer,get_profile_image
+
+router=APIRouter()
+from schema.manufacturer_schema import ManufacturerA,Update_manufacturer,responemanufacturer,LoginAManufacturer
+
+
+#############################################
+# Post Manufacturer-----------1
+# #######################################################
+
+@router.post("/signupmanufacturer", response_model=responemanufacturer)
+def register_user(register_in: ManufacturerA, db: Session = Depends(get_db)):
+    return manufacturer_user_controller(register_in, db)
+##############################################
+# login----------------------2
+# ######################################################
+
+@router.post("/loginusermanufacturer/")
+def login_user(login_in: LoginAManufacturer, db: Session = Depends(get_db)):
+    token = get_token(login_in, db)
+    return {"message":"User Login "
+        ,"access_token": token}
+###################################################
+# getall----------------3
+# #################################################
+
+@router.get("/getallmanufacturer")
+def get_all_register(db: Session = Depends(get_db),current_user = Depends(token_chenk)   ):
+    return get_all_manufacturer_controller(db)
+########################################
+# get by id----------------4
+# ############################################################
+
+
+@router.get("/manufacturer_get_by_id/{id}", response_model=responemanufacturer)
+def get_user_by_id(id: int, db: Session = Depends(get_db),current_user = Depends(token_chenk)   ):
+    return get_manufacturer_by_id_controller(id, db)
+# 🎉 DONE!
+
+
+
+#################################################
+# Update-----------5
+# ###################################################
+@router.patch("/update_manufacturer/{id}", response_model=responemanufacturer)
+def update_register(id: int, data: Update_manufacturer, db: Session = Depends(get_db)):
+    return update_manufacturer_controller(id, data, db)
+####################################################
+# delete-----------------6
+# ################################################
+
+
+@router.delete("/deletemanufacturer/{id}", response_model=responemanufacturer)
+def delete_register(id: int, db: Session = Depends(get_db)):
+    return delete_manufacturer_controller(id, db)
+
+
+######################################################
+# -------------------- Create profile (POST) ---------------7
+# ##############################################
+@router.post("/CreateManufacturerProfile")
+async def upload_profile_image(
+    files: UploadFile = File(...),
+    bio: str = Form(...),
+    manufacturer_id: int = Form(...),
+    description: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    return await post_user_image(files, bio, manufacturer_id, description, db)
+
+##############################################
+# -------------------- Get profile image (GET) --------------------8
+# ######################################################
+@router.get("/get_manufacturer/{manufacturer_id}")
+def get_image(manufacturer_id: int, db: Session = Depends(get_db)):
+    return get_profile_image(manufacturer_id, db)
+
+###################################################
+# delete------------------9
+# #################################################
+@router.delete("/delete/{id}")
+def manufacturer_profile_delete(id:int,db:Session=Depends(get_db)):
+    return  delete_profile(id,db)
+
+####################################################################################################
+####################################################################################################
+
+@router.post("/logoutManufacturer")
+def logout_route_manufacturer(token: str = Depends(token_chenk)):
+    return logout_manufacturer(token)
+
+
+####################################################################################################
+####################################################################################################
+
+
+
+# NAME:-MUSKAN.......  ,
+# LOCATION:-KHARAR-ALIPUR(HISAR)........,
+# MOB.NO :-7988288634 .....,
+# FATHER_NAME:-SATISH ........,
+# MOTHER_NAME:-BABITA..........,
+# DATE_OF_BIRTH:-  21/12/2006.....
+# EMAIL_ID:_muskanbhadana00@gmail.com.....,
+# linkedin:-https://www.linkedin.com/in/muskan-bhadana-a92a593a3/

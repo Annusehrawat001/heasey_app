@@ -1,0 +1,16 @@
+from pydantic import BaseModel
+
+class KYC_schema(BaseModel):
+    name:str
+    email:str
+    phone:str
+    pincode:int
+    register_id:int
+    
+    
+class Bank_kyc_schema(BaseModel):
+    account_holder_name:str
+    account_number:int
+    bank_name:str
+    branch_name:str
+    kyc_id:int

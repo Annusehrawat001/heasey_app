@@ -1,0 +1,18 @@
+from pydantic import BaseModel
+
+class OtpA(BaseModel):
+    email:str
+ 
+
+class ForgetA(BaseModel):
+    password:str
+    email:str
+    otps:int
+
+class Reset_password(BaseModel):
+    old_password:str
+    new_password:str
+    email:str
+    otps:int
+    
+    

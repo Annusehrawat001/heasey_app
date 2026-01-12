@@ -1,0 +1,25 @@
+from fastapi import APIRouter,Depends
+from sqlalchemy.orm import Session
+from database import get_db
+from controller.Wishlist_controller import create_wishlist,get_all_items,delete_wishlist_item
+
+router=APIRouter()
+from schema.wishlish_schema import WishlistA
+####################################################################################################
+####################################################################################################
+@router.post("/postwishlist")
+def post_create(data_in:WishlistA,db:Session=Depends(get_db)):
+    return  create_wishlist(data_in,db)
+####################################################################################################
+####################################################################################################
+@router.get("/getwishlish")
+def post_get(db:Session=Depends(get_db)):
+    return get_all_items(db)
+####################################################################################################
+####################################################################################################
+@router.delete("/deletewishlist")
+def delete_wishlist(id:int,db:Session=Depends(get_db)):
+    return  delete_wishlist_item(id,db)
+
+
+

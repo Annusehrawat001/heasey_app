@@ -1,0 +1,10 @@
+
+from pydantic import BaseModel
+class OrderA(BaseModel):
+    payment_method:str
+    stock_quantity:int
+    register_id:int
+    # product_id:int
+    # product_name:str
+    # my_cart_id:int
+    

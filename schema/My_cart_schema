@@ -1,0 +1,10 @@
+from  pydantic import BaseModel
+
+class MY_CART_MY(BaseModel):
+     stock_quantity:int
+     price:int
+     product_id:int
+     register_id:int
+     
+     
+    

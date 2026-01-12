@@ -1,0 +1,18 @@
+
+from sqlalchemy import Column, Integer, String, DateTime,ForeignKey
+from datetime import datetime
+from database import Base
+from sqlalchemy.orm import relationship
+
+
+
+class Wishlist(Base):
+    __tablename__="wishlist"
+    id=Column(Integer,primary_key=True)
+    register_id=Column(Integer,ForeignKey("register.id",ondelete='CASCADE'))
+    product_id=Column(Integer,ForeignKey("product.Product_id",ondelete='CASCADE'))
+    created_at=Column(DateTime,default=datetime.utcnow())
+    
+    products=relationship("Product",back_populates="wishlist",uselist=False,passive_deletes=True)
+    
+    registers=relationship("Register_User",back_populates="wishlist",uselist=False,passive_deletes=True)

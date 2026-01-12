@@ -1,0 +1,39 @@
+from database import Base
+from sqlalchemy import Integer,String,Column,DateTime,LargeBinary,ForeignKey
+from sqlalchemy.orm import relationship
+from datetime import datetime
+####################################################################################################
+class Manufacturer(Base):
+    __tablename__="manufacturer"
+    id=Column(Integer,primary_key=True)
+    Manufacturer_Name=Column(String(150),nullable=False)
+    email=Column(String(200),nullable=False,unique=True)
+    password=Column(String,nullable=False)
+    address=Column(String,nullable=False)
+    phone=Column(String,nullable=True)
+    city=Column(String,nullable=True)
+    gender=Column(String,nullable=False)
+    state=Column(String,nullable=False)
+    created_at=Column(DateTime,default=datetime.utcnow())
+    pin_code=Column(Integer,nullable=False)
+    
+    products=relationship("Product",back_populates="manufacturer",  cascade="all, delete-orphan", passive_deletes=True  )
+
+  
+    profilemanufacturer__s=relationship("ProfileManufacturer",back_populates="manufacturer",uselist=False,passive_deletes=True)
+    
+    
+###################################################################################################
+class ProfileManufacturer(Base):
+    __tablename__="profileManufacturer"
+    id=Column(Integer,primary_key=True)
+    bio=Column(String,nullable=False)
+    description=Column(String,nullable=False)
+    image=Column(LargeBinary,nullable=True)
+    image_content_type=Column(String,nullable=True)
+    file_name=Column(String,nullable=True)
+    created_at=Column(DateTime,default=datetime.utcnow())
+    
+    manufacturer_id=Column(Integer,ForeignKey("manufacturer.id",ondelete="CASCADE"),nullable=False,unique=True)
+    manufacturer=relationship("Manufacturer",back_populates="profilemanufacturer__s")
+    

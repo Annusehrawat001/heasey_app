@@ -1,0 +1,10 @@
+from pydantic import BaseModel
+
+class ReviewA(BaseModel):
+    rating:int
+    comment:str
+    order_id:int
+    register_id:int
+    product_id:int
+    
+    
